@@ -4867,9 +4867,15 @@ var data =
 //renderNames(data);
 
 function getColumnsHtml (row) {
-    return row.results[0].members.map (function (element) {
-        return "<tr><td>" + element.last_name + " " + element.middle_name + " " + element.first_name + "</td>" + "<td>" + element.party + "</td>" + "<td>" + element.state + "</td>" + "<td>" + element.seniority + "</td>" + "<td>" + element.votes_with_party_pct + "%" + "</td></tr>";
-    }).join("")
+    return row.results[0].members
+        .map (element => {
+        if(element.middle_name == null){
+            return "<tr><td><a href='" + element.url + "' target='_blank'>" + element.last_name + " " + element.first_name + "</a></td>" + "<td>" + element.party + "</td>" + "<td>" + element.state + "</td>" + "<td>" + element.seniority + "</td>" + "<td>" + element.votes_with_party_pct + "%" + "</td></tr>";
+        } else {
+          return "<tr><td><a href='" + element.url + "' target='_blank'>" + element.last_name + " " + element.middle_name + " " + element.first_name + "</a></td>" + "<td>" + element.party + "</td>" + "<td>" + element.state + "</td>" + "<td>" + element.seniority + "</td>" + "<td>" + element.votes_with_party_pct + "%" + "</td></tr>";  
+        }     
+    })
+        .join("")
 }
 getColumnsHtml(data);
 
