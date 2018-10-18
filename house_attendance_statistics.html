@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
 
-<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Congress 113: Senate</title>
-
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+    <title>Party Attendance</title>
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
     <link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-    <div class="container-fluid">
-        <div class="row mt-3">
+    </head>
+    
+    <body>
+          
+  
+<div class="container-fluid">
+    
+     <div class="row mt-3">
 
             <div class="col d-flex justify-content-start align-items-center">
 
@@ -50,7 +52,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="house_data.html">House</a>
-                                    <a class="dropdown-item active">Senate</a>
+                                    <a class="dropdown-item" href="senate_data.html">Senate</a>
                                 </div>
                             </li>
                             
@@ -59,7 +61,7 @@
                                     Attendance
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="house_attendance_statistics.html">House</a>
+                                    <a class="dropdown-item active">House</a>
                                     <a class="dropdown-item" href="senate_attendance_statistics.html">Senate</a>
                                 </div>
                             </li>
@@ -77,67 +79,78 @@
                 </nav>
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <h2>Senators</h2>
-                <p class="text-justify">First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.</p>
+
+     
+     
+     <div class="row">
+     
+     <div class="col-6">
+     
+            <h2>Attendance</h2>
+            <p class="text-justify mt-3">The Constitution specifies that a majority of members constitutes a quorum to do business in each house. Representatives and senators rarely force the presence of a quorum by demanding quorum calls; thus, in most cases, debates continue even if a majority is not present.</p>
+
+            <p class="text-justify mt-4">The Senate uses roll-call votes; a clerk calls out the names of all the senators, each senator stating "aye" or "no" when his or her name is announced. The House reserves roll-call votes for the most formal matters, as a roll-call of all 435 representatives takes quite some time; normally, members vote by electronic device. In the case of a tie, the motion in question fails. In the Senate, the Vice President may (if present) cast the tiebreaking vote.</p>
+    	    
+           </div>
+           
+           <div class="col">
+           
+            <h2 class="h4 d-flex justify-content-end">House at a glance</h2>
+            <table class="table text-center table_borderless">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Party</th>
+                        <th scope="col">Number of Reps</th>
+                        <th scope="col">% Voted with Prty</th>
+                    </tr>
+                </thead>
+                <tbody id="at_glance_table">
+          
+                </tbody>
+            </table>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-4 mt-3 mb-3">
-
-                <span class="mr-4">Filter by Party:</span>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxRepublican" name="party" value="R" onchange="filter()">
-                    <label class="form-check-label" for="inlineCheckboxRepublican">Republican</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxDemocrat" name="party" value="D" onchange="filter()">
-                    <label class="form-check-label" for="inlineCheckboxDemocrat">Democrat</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxIndependent" name="party" value="I" onchange="filter()">
-                    <label class="form-check-label" for="inlineCheckboxIndependent">Independent</label>
-                </div>
-
             </div>
-            <div class="col mt-3 mb-3 d-flex justify-content-end">
-                <span class="mr-4">Filter by State:</span>
-                <select id="state" onchange="filter()">
-
-                </select>
-                
-                
-                
-            </div>
-
-        </div>
-
-        <div class="row">
+            
+            <div class="row">
+            
             <div class="col">
-                <table class="table text-center table_borderless">
 
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Party</th>
-                            <th scope="col">State</th>
-                            <th scope="col">Years in Office</th>
-                            <th scope="col">% Votes w/ Party</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="table-rows">
-
-                    </tbody>
-
-                </table>
+            <h2 class="h4 d-flex justify-content-end">Least Engaged (Bottom 10% Attendance)</h2>
+            <table class="table text-center table_borderless">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number of Missed Votes</th>
+                        <th scope="col">% Missed</th>
+                    </tr>
+                </thead>
+                <tbody id="least_engaged_table">
+     
+                </tbody>
+            </table>
+            
             </div>
-        </div>
+            
+            <div class="col">
 
-        <div class="row">
+            <h2 class="h4 d-flex justify-content-end">Most Engaged (Top 10% Attendance)</h2>
+            <table class="table text-center table_borderless">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number of Missed Votes</th>
+                        <th scope="col">% Missed</th>
+                    </tr>
+                </thead>
+                <tbody id="most_engaged_table">
+
+                </tbody>
+            </table>
+            </div>
+            </div>
+            
+            
+              <div class="row">
             <div class="col">
                 <div class="w-100 bg-light text-center footer p-3 mb-3 mt-3">
                     <p>&#9400; 2&Oslash;16 TGIF | All Rights Reserved</p>
@@ -145,21 +158,17 @@
 
             </div>
         </div>
-    </div>
-
-
-
-
-
-
-
-    <script src="pro_congress_113_senate.js"></script>
-    <script src="main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            
+            
+            </div>
+            
+            <script src="pro_congress_113_house.js"></script> 
+    	<script src="JSON_senate_and_house_statistics.js"></script> 
+    	<script src="statistics.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-
+        
 </body>
-
 </html>

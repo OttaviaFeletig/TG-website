@@ -21,6 +21,8 @@
 //var g = + "abc";
 //console.log(g);
 
+
+
 function getMembersPartyList(object) {
 
     var republicansMembersList = [];
@@ -79,9 +81,9 @@ function calculateAverageVotesWithParty(republicansArray, democraticsArray, inde
     var independentsMembersAveragePercentage = [];
     var totalAveragePercentage = [];
 
-    republicansMembersAveragePercentage = Math.round(republicansMembersPercentage.reduce((a, b) => a + b) / republicansMembersPercentage.length * 100) / 100;
-    democraticsMembersAveragePercentage = Math.round(democraticsMembersPercentage.reduce((a, b) => a + b) / democraticsMembersPercentage.length * 100) / 100;
-    independentsMembersAveragePercentage = Math.round(independentsMembersPercentage.reduce((a, b) => a + b) / independentsMembersPercentage.length * 100) / 100;
+    republicansMembersAveragePercentage = Math.round(republicansMembersPercentage.reduce((a, b) => a + b, 0) / republicansMembersPercentage.length * 100) / 100 || 0;
+    democraticsMembersAveragePercentage = Math.round(democraticsMembersPercentage.reduce((a, b) => a + b, 0) / democraticsMembersPercentage.length * 100) / 100 || 0;
+    independentsMembersAveragePercentage = Math.round(independentsMembersPercentage.reduce((a, b) => a + b, 0) / independentsMembersPercentage.length * 100) / 100 || 0;
     totalAveragePercentage = Math.round((republicansMembersAveragePercentage + democraticsMembersAveragePercentage + independentsMembersAveragePercentage) / 3 * 100) / 100;
 
 
@@ -181,7 +183,7 @@ function getSenateAtGlanceTableHtml(senateAtGlance) {
 
 function renderSenateAtGlanceTableHtml(statistics) {
 
-    document.getElementById("senate_at_glance_table").innerHTML = getSenateAtGlanceTableHtml(statistics.senate_at_glance);
+    document.getElementById("at_glance_table").innerHTML = getSenateAtGlanceTableHtml(statistics.senate_at_glance);
 
 }
 renderSenateAtGlanceTableHtml(statistics);
