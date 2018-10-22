@@ -38,11 +38,11 @@ function getMembersPartyList(object) {
             independentsMembersList.push(x);
         }
     });
-
+    console.log("members" + republicansMembersList)
     getTheNumberOfMembers(republicansMembersList, democraticsMembersList, independentsMembersList);
     calculateAverageVotesWithParty(republicansMembersList, democraticsMembersList, independentsMembersList);
 }
-getMembersPartyList(data.results[0].members);
+
 
 
 function getTheNumberOfMembers(republicansArray, democraticsArray, independentsArray) {
@@ -56,6 +56,8 @@ function getTheNumberOfMembers(republicansArray, democraticsArray, independentsA
     statistics.senate_at_glance[1]["number_of_members"] = republicansMembersNumber;
     statistics.senate_at_glance[2]["number_of_members"] = independentsMembersNumber;
     statistics.senate_at_glance[3]["number_of_members"] = totalMembersNumber;
+    
+    console.log(republicansMembersNumber);
 
 }
 
@@ -110,7 +112,7 @@ function getSortedPercentageOfVotes(object) {
 
 
 }
-getSortedPercentageOfVotes(data.results[0].members);
+
 
 function getSortedPercentageOfAttendance(object) {
 
@@ -121,7 +123,7 @@ function getSortedPercentageOfAttendance(object) {
     get10Percentage(whoLeastOftenAttend, "most_attendance");
     get10Percentage(whoMostOftenAttend, "least_attendance");
 }
-getSortedPercentageOfAttendance(data.results[0].members)
+
 
 
 function get10Percentage(array, direction) {
@@ -143,25 +145,25 @@ function get10Percentage(array, direction) {
 
     if (direction == "most_loyal") {
 
-        statistics["most_loyal"] = data.results[0].members
+        statistics["most_loyal"] = members
             .filter(x => x.votes_with_party_pct >= votes10Percent)
             .sort((a, b) => b.votes_with_party_pct - a.votes_with_party_pct);
 
     } else if (direction == "least_loyal") {
 
-        statistics["least_loyal"] = data.results[0].members
+        statistics["least_loyal"] = members
             .filter(x => x.votes_with_party_pct <= votes10Percent)
             .sort((a, b) => a.votes_with_party_pct - b.votes_with_party_pct);
 
     } else if (direction == "most_attendance") {
 
-        statistics["most_engaged"] = data.results[0].members
+        statistics["most_engaged"] = members
             .filter(x => x.missed_votes_pct <= votes10Percent)
             .sort((a, b) => a.missed_votes_pct - b.missed_votes_pct);
 
     } else {
 
-        statistics["least_engaged"] = data.results[0].members
+        statistics["least_engaged"] = members
             .filter(x => x.missed_votes_pct >= votes10Percent)
             .sort((a, b) => b.missed_votes_pct - a.missed_votes_pct);
     }
@@ -186,15 +188,6 @@ function renderSenateAtGlanceTableHtml(statistics) {
     document.getElementById("at_glance_table").innerHTML = getSenateAtGlanceTableHtml(statistics.senate_at_glance);
 
 }
-renderSenateAtGlanceTableHtml(statistics);
-
-
-
-
-
-
-if (document.title == "Party Loyalty") {
-
 
     function getLeastLoyalTableHtml(leastLoyal) {
 
@@ -214,7 +207,7 @@ if (document.title == "Party Loyalty") {
         document.getElementById("least_loyal_table").innerHTML = getLeastLoyalTableHtml(statistics.least_loyal);
 
     }
-    renderLeastLoyalTableHtml(statistics);
+    
 
 
     function getMostLoyalTableHtml(mostLoyal) {
@@ -235,10 +228,10 @@ if (document.title == "Party Loyalty") {
         document.getElementById("most_loyal_table").innerHTML = getMostLoyalTableHtml(statistics.most_loyal);
 
     }
-    renderMostLoyalTableHtml(statistics);
+    
 
 
-} else {
+
 
     function getLeastEngagedTableHtml(leastEngaged) {
 
@@ -258,7 +251,7 @@ if (document.title == "Party Loyalty") {
         document.getElementById("least_engaged_table").innerHTML = getLeastEngagedTableHtml(statistics.least_engaged);
 
     }
-    renderLeastEngagedTableHtml(statistics);
+    
 
 
     function getMostEngagedTableHtml(mostEngaged) {
@@ -279,10 +272,10 @@ if (document.title == "Party Loyalty") {
         document.getElementById("most_engaged_table").innerHTML = getMostEngagedTableHtml(statistics.most_engaged);
 
     }
-    renderMostEngagedTableHtml(statistics);
+    
 
 
-}
+
 
 
 

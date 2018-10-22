@@ -83,29 +83,29 @@
                 <p class="text-justify">First convened in 1789, the composition and powers of the Senate are established in Article One of the U.S. Constitution. Each state is represented by two senators, regardless of population, who serve staggered six-year terms. The Senate has several exclusive powers not granted to the House, including consenting to treaties as a precondition to their ratification and consenting to or confirming appointments of Cabinet secretaries, federal judges, other federal executive officials, military officers, regulatory officials, ambassadors, and other federal uniformed officers, as well as trial of federal officials impeached by the House.</p>
             </div>
         </div>
-
+    <div id="table-and-filters">
         <div class="row">
             <div class="col-4 mt-3 mb-3">
 
                 <span class="mr-4">Filter by Party:</span>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxRepublican" name="party" value="R" onchange="filter()">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckboxRepublican" v-model="checkedParty" value="R">
                     <label class="form-check-label" for="inlineCheckboxRepublican">Republican</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxDemocrat" name="party" value="D" onchange="filter()">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckboxDemocrat" v-model="checkedParty" value="D">
                     <label class="form-check-label" for="inlineCheckboxDemocrat">Democrat</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckboxIndependent" name="party" value="I" onchange="filter()">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckboxIndependent" v-model="checkedParty" value="I">
                     <label class="form-check-label" for="inlineCheckboxIndependent">Independent</label>
                 </div>
-
+           
             </div>
             <div class="col mt-3 mb-3 d-flex justify-content-end">
                 <span class="mr-4">Filter by State:</span>
-                <select id="state" onchange="filter()">
+                <select id="state" onchange="filter(members)">
 
                 </select>
                 
@@ -128,15 +128,28 @@
                             <th scope="col">% Votes w/ Party</th>
                         </tr>
                     </thead>
-
-                    <tbody id="table-rows">
+                    
+                 
+                        
+                           <tbody id="table">
+                    <tr v-for="(senator, index) in filter" :key="index">
+                        <td><a v-bind:href="senator.url" target="_blank">{{senator.last_name}} {{senator.middle_name}} {{senator.first_name}}</a></td>
+                        <td>{{senator.party}}</td>
+                        <td>{{senator.state}}</td>
+                        <td>{{senator.seniority}}</td>
+                        <td>{{senator.votes_with_party_pct}} %</td>
+                    </tr>
 
                     </tbody>
+                        
+                
+
+                 
 
                 </table>
             </div>
         </div>
-
+</div>
         <div class="row">
             <div class="col">
                 <div class="w-100 bg-light text-center footer p-3 mb-3 mt-3">
@@ -151,10 +164,14 @@
 
 
 
-
-
+    <!--    vue script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+    <!--    my javascript files-->
     <script src="pro_congress_113_senate.js"></script>
     <script src="main.js"></script>
+   
+    <!--    bootstrap-->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
