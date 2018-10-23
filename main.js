@@ -1,21 +1,60 @@
-var senateData = new Vue ({
-    
-   el: '#table-and-filters',
-    data: {
-        senators: {},
-        checkedParty: [],
-    },
-    computed: {
-        filter: function () {
-            if(!this.checkedParty.length) {
-                return this.senators; 
-            } else {
-               return this.senators.filter(x => this.checkedParty.includes(x.party));
+function mySenateData(members) {
+
+    var senateData = new Vue({
+
+        el: '#table-and-filters',
+        data: {
+            senators: members,
+            checkedParty: [],
+            state: [],
+            checkedState: "all"
+        },
+        computed: {
+            filter: function () {
+                if (!this.checkedParty.length && this.checkedState == "all") {
+                    
+                    return this.senators;
+                    
+                } else if(this.checkedState == "all" || !this.checkedParty.length){
+                    
+                    return this.senators.filter(x => this.checkedParty.includes(x.party)
+                                                
+                    ||
+                                                
+                    this.checkedState == x.state);
+                    
+                } else {
+                    
+                    return this.senators.filter(x => this.checkedParty.includes(x.party)
+                                                
+                    &&
+                                                
+                    this.checkedState == x.state);  
+                }
+            }
+        },
+        created() {
+            this.getStateList()
+        },
+        methods: {
+            getStateList: function () {
+                
+                // Set is an object that doesn't allow to have inside himself only unique values
+                
+                var sortedState = new Set(this.senators.map(i => i.state).sort());
+                
+                console.log(sortedState);
+                console.log([...sortedState]);
+                
+                // but as Set is an object i want to put in into an array and with these ... I am iterating through all the items of the object and putting them into the array
+                
+                this.state = [...sortedState];
+             
             }
         }
-    } 
-    
-});
+    });
+
+}
 
 
 

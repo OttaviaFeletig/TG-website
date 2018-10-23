@@ -16,14 +16,19 @@ onload = (() => {
        
         var members = data.results[0].members;
         
-        senateData.senators = members;
-        console.log(senateData);
-        console.log(senateData.checkedParty);
-       
+//        senateData.senators = members;
         
-
+        if(document.title == "Congress 113: Senate" || document.title == "Congress 113: House") {
+            mySenateData(members);
+        } else {
+            mySenateStatistics(members);
+        }
+          
     })
 })()
+
+
+
 
 
 

@@ -105,8 +105,9 @@
             </div>
             <div class="col mt-3 mb-3 d-flex justify-content-end">
                 <span class="mr-4">Filter by State:</span>
-                <select id="state" onchange="filter(members)">
-
+                <select v-model="checkedState">
+                <option value="all">All the states</option>
+                <option v-for="(state,index) in state" :key="index" v-bind:value="state">{{state}}</option>
                 </select>
                 
                 

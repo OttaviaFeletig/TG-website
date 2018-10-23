@@ -87,7 +87,7 @@
 
        
          </div>
-        
+        <div id="senate-party-loyalty-table">
         <div class="col">
         <h2 class="h4 d-flex justify-content-end">Senate at a glance</h2>
         
@@ -101,7 +101,26 @@
                 </tr>
             </thead>
             <tbody id="at_glance_table">
-
+                <tr>
+                   <td>Democrats</td>
+                   <td>{{democratsMembersNumber}}</td>
+                   <td>{{democratsMembersPct}}</td>
+                   </tr>
+                   <tr>
+                      <td>Republicans</td>
+                    <td>{{republicansMembersNumber}}</td>
+                    <td>{{republicansMembersPct}}</td> 
+                   </tr>
+                    <tr>
+                    <td>Independents</td>
+                    <td>{{independentsMembersNumber}}</td>
+                    <td>{{independentsMembersPct}}</td>
+                </tr>
+                    <tr>
+                    <td>Total</td>
+                    <td>{{totalMembersNumber}}</td>
+                    <td>{{totalMembersPct}}</td>
+                </tr>
             </tbody>
         </table>
         </div>
@@ -146,6 +165,8 @@
         </div>
         </div>
         
+        </div>
+        
            <div class="row">
             <div class="col">
                 <div class="w-100 bg-light text-center footer p-3 mb-3 mt-3">
@@ -158,9 +179,16 @@
     
     
     </div>
+    
+<!--    Vue script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+<!--    JS script-->
     <script src="pro_congress_113_senate.js"></script>
     <script src="JSON_senate_and_house_statistics.js"></script>
     <script src="statistics.js"></script>
+    
+<!--    Bootstrap script-->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
