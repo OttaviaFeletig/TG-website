@@ -1,318 +1,158 @@
 //STATISTICS
-
-function mySenateStatistics (members) {
-    
-    var senateStatistic = new Vue ({
-        el: '#senate-party-loyalty-table',
-        data: {
-            senators: members,
-            democratsMembersList: [],
-            republicansMembersList: [],
-            independentsMembersList: [],
-            
-            democratsMembersNumber: 0,
-            republicansMembersNumber: 0,        
-            independentsMembersNumber: 0,
-            totalMembersNumber: 0,
-            
-            democratsMembersPct: 0,
-            republicansMembersPct: 0,
-            independentsMembersPct: 0,
-            totalMembersPct: 0
-            
-        },
-        mounted() {
-            this.getMembersNumber();
-            this.getMembersPct();
-            
-        },
-        methods: {
-            getMembersNumber: function () {
-                
-                this.democratsMembersList = this.senators.filter(oneSenator => oneSenator.party.includes("D"));
-                
-                this.democratsMembersNumber = this.democratsMembersList.length;
-                
-                
-                this.republicansMembersList =
-                this.senators.filter(oneSenator => oneSenator.party.includes("R"));
-                
-                this.republicansMembersNumber = this.republicansMembersList.length;
-                
-                
-                this.independentsMembersList = this.senators.filter(oneSenator => oneSenator.party.includes("I"));
-                
-                this.independentsMembersNumber = this.independentsMembersList.length;
-                
-                this.totalMembersNumber = this.democratsMembersNumber + this.republicansMembersNumber + this.independentsMembersNumber;
-               
-            },
-            getMembersPct: function() {
-                
-                this.democratsMembersPct = Math.round(this.democratsMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.democratsMembersList.length * 100) / 100 || 0;
-
-                this.republicansMembersPct = Math.round(this.republicansMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.republicansMembersList.length * 100) / 100 || 0;
-                
-                this.independentsMembersPct = Math.round(this.independentsMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.independentsMembersList.length * 100) / 100 || 0;
-                
-                this.totalMembersPct = Math.round((this.democratsMembersPct + this.republicansMembersPct + this.independentsMembersPct) / 3 * 100) / 100;
-
-            }
-        }
-        
-    })
-}
-
-
 //
-//function getMembersPartyList(object) {
+//function myStatistics(members) {
 //
-//    var republicansMembersList = [];
-//    var democraticsMembersList = [];
-//    var independentsMembersList = [];
+//    var statistic = new Vue({
+//        el: '#statistics-table',
+//        data: {
+//            politician: [],
+//            democratsMembersList: [],
+//            republicansMembersList: [],
+//            independentsMembersList: [],
 //
-//    var listMembers = object.forEach(x => {
-//        if (x.party.includes("R")) {
-//            republicansMembersList.push(x);
-//        } else if (x.party.includes("D")) {
-//            democraticsMembersList.push(x);
-//        } else {
-//            independentsMembersList.push(x);
+//            democratsMembersNumber: 0,
+//            republicansMembersNumber: 0,
+//            independentsMembersNumber: 0,
+//            totalMembersNumber: 0,
+//
+//            democratsMembersPct: 0,
+//            republicansMembersPct: 0,
+//            independentsMembersPct: 0,
+//            totalMembersPct: 0,
+//
+//            mostLoyal: [],
+//            leastLoyal: [],
+//
+//            mostEngaged: [],
+//            leastEngaged: [],
+//            isLoading: true
+//        },
+//        created() {
+//            if(document.title == "Senate Party Loyalty" || document.title == "Senate Party Attendance") {
+//                this.loadFetchSenate();
+//            } else {
+//                this.loadFetchHouse();
+//            }
+//            
+//        },
+//        methods: {
+//            getMembersNumber: function () {
+//
+//                this.democratsMembersList = this.politician.filter(onePolitician => onePolitician.party.includes("D"));
+//
+//                this.democratsMembersNumber = this.democratsMembersList.length;
+//
+//
+//                this.republicansMembersList =
+//                    this.politician.filter(onePolitician => onePolitician.party.includes("R"));
+//
+//                this.republicansMembersNumber = this.republicansMembersList.length;
+//
+//
+//                this.independentsMembersList = this.politician.filter(onePolitician => onePolitician.party.includes("I"));
+//
+//                this.independentsMembersNumber = this.independentsMembersList.length;
+//
+//                this.totalMembersNumber = this.democratsMembersNumber + this.republicansMembersNumber + this.independentsMembersNumber;
+//
+//            },
+//            getMembersPct: function () {
+//
+//                this.democratsMembersPct = Math.round(this.democratsMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.democratsMembersList.length * 100) / 100 || 0;
+//
+//                this.republicansMembersPct = Math.round(this.republicansMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.republicansMembersList.length * 100) / 100 || 0;
+//
+//                this.independentsMembersPct = Math.round(this.independentsMembersList.map(pct => pct.votes_with_party_pct).reduce((a, b) => a + b, 0) / this.independentsMembersList.length * 100) / 100 || 0;
+//
+//                this.totalMembersPct = Math.round((this.democratsMembersPct + this.republicansMembersPct + this.independentsMembersPct) / 3 * 100) / 100;
+//
+//            },
+//            get10Pct: function () {
+//
+//                if (document.title == "Senate Party Loyalty" || document.title == "House Party Loyalty") {
+//
+//                    var whoMostOftenVoteWithTheParty = this.politician.map(el => el.votes_with_party_pct).sort((a, b) => b - a);
+//
+//                    var whoLeastOftenVoteWithTheParty = whoMostOftenVoteWithTheParty.slice().reverse();
+//
+//                    var index10Percent = Math.round(10 * this.politician.length / 100) - 1;
+//
+//                    var votes10PercentMostLoyal = whoMostOftenVoteWithTheParty[index10Percent];
+//
+//                    var votes10PercentLeastLoyal = whoLeastOftenVoteWithTheParty[index10Percent];
+//
+//                    this.mostLoyal = this.politician
+//                        .filter(x => x.votes_with_party_pct >= votes10PercentMostLoyal)
+//                        .sort((a, b) => b.votes_with_party_pct - a.votes_with_party_pct);
+//
+//                    this.leastLoyal = this.politician
+//                        .filter(x => x.votes_with_party_pct <= votes10PercentLeastLoyal)
+//                        .sort((a, b) => a.votes_with_party_pct - b.votes_with_party_pct);
+//                } else {
+//
+//                    var whoMostOftenAttend = this.politician.map(el => el.missed_votes_pct).sort((a, b) => a - b);
+//
+//                    var whoLeastOftenAttend = whoMostOftenAttend.slice().reverse();
+//
+//                    var index10Percent = Math.round(10 * this.politician.length / 100) - 1;
+//
+//                    var votes10PercentMostEngaged = whoMostOftenAttend[index10Percent];
+//
+//                    var votes10PercentLeastEngaged = whoLeastOftenAttend[index10Percent];
+//
+//                    this.mostEngaged = this.politician
+//                        .filter(x => x.missed_votes_pct <= votes10PercentMostEngaged)
+//                        .sort((a, b) => a.missed_votes_pct - b.missed_votes_pct);
+//
+//                    this.leastEngaged = this.politician
+//                        .filter(x => x.missed_votes_pct >= votes10PercentLeastEngaged)
+//                        .sort((a, b) => b.missed_votes_pct - a.missed_votes_pct);
+//                    console.log(whoMostOftenAttend)
+//
+//                }
+//            },
+//            loadFetchSenate: function () {
+//                 fetch('https://api.propublica.org/congress/v1/113/senate/members.json', {
+//                        method: 'GET',
+//                        headers: {
+//                            'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
+//                        }
+//
+//                    })
+//                    .then(function (response) {
+//                        return response.json()
+//                    })
+//                    .then(function (data) {
+//                        statistic.isLoading = false;
+//                       
+//                        statistic.politician = data.results[0].members;
+//                        statistic.getMembersNumber();
+//                        statistic.getMembersPct();
+//                        statistic.get10Pct();
+//                    })
+//            },
+//            loadFetchHouse: function () {
+//                
+//                fetch('https://api.propublica.org/congress/v1/113/house/members.json', {
+//                        method: 'GET',
+//                        headers: {
+//                            'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
+//                        }
+//
+//                    })
+//                    .then(function (response) {
+//                        return response.json()
+//                    })
+//                    .then(function (data) {
+//                        statistic.isLoading = false;
+//                       
+//                        statistic.politician = data.results[0].members;
+//                        statistic.getMembersNumber();
+//                        statistic.getMembersPct();
+//                        statistic.get10Pct();
+//                    })
+//                
+//            }
 //        }
-//    });
-//    console.log("members" + republicansMembersList)
-//    getTheNumberOfMembers(republicansMembersList, democraticsMembersList, independentsMembersList);
-//    calculateAverageVotesWithParty(republicansMembersList, democraticsMembersList, independentsMembersList);
-//}
-//
-//
-//
-//function getTheNumberOfMembers(republicansArray, democraticsArray, independentsArray) {
-//
-//    var republicansMembersNumber = republicansArray.length;
-//    var democraticsMembersNumber = democraticsArray.length;
-//    var independentsMembersNumber = independentsArray.length;
-//    var totalMembersNumber = republicansMembersNumber + democraticsMembersNumber + independentsMembersNumber;
-//
-//    statistics.senate_at_glance[0]["number_of_members"] = democraticsMembersNumber;
-//    statistics.senate_at_glance[1]["number_of_members"] = republicansMembersNumber;
-//    statistics.senate_at_glance[2]["number_of_members"] = independentsMembersNumber;
-//    statistics.senate_at_glance[3]["number_of_members"] = totalMembersNumber;
-//    
-//    console.log(republicansMembersNumber);
-//
-//}
-//
-//
-//function calculateAverageVotesWithParty(republicansArray, democraticsArray, independentsArray) {
-//
-//    var republicansMembersPercentage = [];
-//    var democraticsMembersPercentage = [];
-//    var independentsMembersPercentage = [];
-//
-//    republicansArray.forEach(x => {
-//        republicansMembersPercentage.push(x.votes_with_party_pct);
 //    })
-//    democraticsArray.forEach(x => {
-//        democraticsMembersPercentage.push(x.votes_with_party_pct);
-//    })
-//    independentsArray.forEach(x => {
-//        independentsMembersPercentage.push(x.votes_with_party_pct);
-//    })
-//
-//    var republicansMembersAveragePercentage = [];
-//    var democraticsMembersAveragePercentage = [];
-//    var independentsMembersAveragePercentage = [];
-//    var totalAveragePercentage = [];
-//
-//    republicansMembersAveragePercentage = Math.round(republicansMembersPercentage.reduce((a, b) => a + b, 0) / republicansMembersPercentage.length * 100) / 100 || 0;
-//    democraticsMembersAveragePercentage = Math.round(democraticsMembersPercentage.reduce((a, b) => a + b, 0) / democraticsMembersPercentage.length * 100) / 100 || 0;
-//    independentsMembersAveragePercentage = Math.round(independentsMembersPercentage.reduce((a, b) => a + b, 0) / independentsMembersPercentage.length * 100) / 100 || 0;
-//    totalAveragePercentage = Math.round((republicansMembersAveragePercentage + democraticsMembersAveragePercentage + independentsMembersAveragePercentage) / 3 * 100) / 100;
-//
-//
-//    statistics.senate_at_glance[0]["percentage_voted_with_party"] = democraticsMembersAveragePercentage;
-//    statistics.senate_at_glance[1]["percentage_voted_with_party"] = republicansMembersAveragePercentage;
-//    statistics.senate_at_glance[2]["percentage_voted_with_party"] = independentsMembersAveragePercentage;
-//    statistics.senate_at_glance[3]["percentage_voted_with_party"] = totalAveragePercentage;
-//
-//
 //}
-//
-//
-//function getSortedPercentageOfVotes(object) {
-//
-//    var whoMostOftenVoteWithTheParty = object.map(el => el.votes_with_party_pct).sort((a, b) => b - a);
-//
-//
-//    var whoLeastOftenVoteWithTheParty = whoMostOftenVoteWithTheParty.slice().reverse();
-//    console.log(whoLeastOftenVoteWithTheParty);
-//
-//    //change between whoLeastOftenVoteWithTheParty and whoMostOftenVoteWithTheParty to get different results at get10Percent
-//    get10Percentage(whoMostOftenVoteWithTheParty, "most_loyal");
-//    get10Percentage(whoLeastOftenVoteWithTheParty, "least_loyal");
-//
-//
-//}
-//
-//
-//function getSortedPercentageOfAttendance(object) {
-//
-//    var whoLeastOftenAttend = object.map(el => el.missed_votes_pct).sort((a, b) => a - b);
-//
-//    var whoMostOftenAttend = whoLeastOftenAttend.slice().reverse();
-//
-//    get10Percentage(whoLeastOftenAttend, "most_attendance");
-//    get10Percentage(whoMostOftenAttend, "least_attendance");
-//}
-//
-//
-//
-//function get10Percentage(array, direction) {
-//
-//    var index10Percent = Math.round(10 * array.length / 100) - 1;
-//
-//    var votes10Percent = array[index10Percent];
-//
-//    //    for(var i = 0; i <= index10Percent; i++) {
-//    //        for(var h = 1; h < array.length; h++) {
-//    //            if(array[index10Percent] == (array[h])){
-//    //                index10Percent = h;
-//    //            } 
-//    //        } votes10Percent.push(array[i]);   
-//    //    }
-//
-//    console.log(index10Percent);
-//    console.log(votes10Percent);
-//
-//    if (direction == "most_loyal") {
-//
-//        statistics["most_loyal"] = members
-//            .filter(x => x.votes_with_party_pct >= votes10Percent)
-//            .sort((a, b) => b.votes_with_party_pct - a.votes_with_party_pct);
-//
-//    } else if (direction == "least_loyal") {
-//
-//        statistics["least_loyal"] = members
-//            .filter(x => x.votes_with_party_pct <= votes10Percent)
-//            .sort((a, b) => a.votes_with_party_pct - b.votes_with_party_pct);
-//
-//    } else if (direction == "most_attendance") {
-//
-//        statistics["most_engaged"] = members
-//            .filter(x => x.missed_votes_pct <= votes10Percent)
-//            .sort((a, b) => a.missed_votes_pct - b.missed_votes_pct);
-//
-//    } else {
-//
-//        statistics["least_engaged"] = members
-//            .filter(x => x.missed_votes_pct >= votes10Percent)
-//            .sort((a, b) => b.missed_votes_pct - a.missed_votes_pct);
-//    }
-//
-//}
-//
-////console.log(statistics);
-////console.log(JSON.stringify(statistics));
-//
-//function getSenateAtGlanceTableHtml(senateAtGlance) {
-//
-//    return senateAtGlance
-//        .map(element => {
-//            return `<tr><td>${element.name}</td><td>${element.number_of_members}</td><td>${element.percentage_voted_with_party}%</td></tr>`;
-//
-//        }).join("")
-//
-//}
-//
-//function renderSenateAtGlanceTableHtml(statistics) {
-//
-//    document.getElementById("at_glance_table").innerHTML = getSenateAtGlanceTableHtml(statistics.senate_at_glance);
-//
-//}
-//
-//    function getLeastLoyalTableHtml(leastLoyal) {
-//
-//        return leastLoyal
-//            .map(element => {
-//                if (element.middle_name == null) {
-//                    element.middle_name = "";
-//                }
-//                return `<tr><td><a href=${element.url} target='_blank'>${element.last_name} ${element.middle_name} ${element.first_name}</a></td><td>${element.total_votes - element.missed_votes}</td><td>${element.votes_with_party_pct}%</td></tr>`;
-//
-//            }).join("")
-//
-//    }
-//
-//    function renderLeastLoyalTableHtml(statistics) {
-//
-//        document.getElementById("least_loyal_table").innerHTML = getLeastLoyalTableHtml(statistics.least_loyal);
-//
-//    }
-//    
-//
-//
-//    function getMostLoyalTableHtml(mostLoyal) {
-//
-//        return mostLoyal
-//            .map(element => {
-//                if (element.middle_name == null) {
-//                    element.middle_name = "";
-//                }
-//                return `<tr><td><a href=${element.url} target='_blank'>${element.last_name} ${element.middle_name} ${element.first_name}</a></td><td>${element.total_votes - element.missed_votes}</td><td>${element.votes_with_party_pct}%</td></tr>`;
-//
-//            }).join("")
-//
-//    }
-//
-//    function renderMostLoyalTableHtml(statistics) {
-//
-//        document.getElementById("most_loyal_table").innerHTML = getMostLoyalTableHtml(statistics.most_loyal);
-//
-//    }
-//    
-//
-//
-//
-//
-//    function getLeastEngagedTableHtml(leastEngaged) {
-//
-//        return leastEngaged
-//            .map(element => {
-//                if (element.middle_name == null) {
-//                    element.middle_name = "";
-//                }
-//                return `<tr><td><a href=${element.url} target='_blank'>${element.last_name} ${element.middle_name} ${element.first_name}</a></td><td>${element.total_present}</td><td>${element.missed_votes_pct}%</td></tr>`;
-//
-//            }).join("")
-//
-//    }
-//
-//    function renderLeastEngagedTableHtml(statistics) {
-//
-//        document.getElementById("least_engaged_table").innerHTML = getLeastEngagedTableHtml(statistics.least_engaged);
-//
-//    }
-//    
-//
-//
-//    function getMostEngagedTableHtml(mostEngaged) {
-//
-//        return mostEngaged
-//            .map(element => {
-//                if (element.middle_name == null) {
-//                    element.middle_name = "";
-//                }
-//                return `<tr><td><a href=${element.url} target='_blank'>${element.last_name} ${element.middle_name} ${element.first_name}</a></td><td>${element.total_present}</td><td>${element.missed_votes_pct}%</td></tr>`;
-//
-//            }).join("")
-//
-//    }
-//
-//    function renderMostEngagedTableHtml(statistics) {
-//
-//        document.getElementById("most_engaged_table").innerHTML = getMostEngagedTableHtml(statistics.most_engaged);
-//
-//    }
-//    
-

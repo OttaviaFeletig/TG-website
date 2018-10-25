@@ -1,49 +1,32 @@
-var members = [];
-
-onload = (() => {
-    
-    fetch('https://api.propublica.org/congress/v1/113/house/members.json', {
-    method: 'GET',
-    headers: {
-        'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
-    }
-    
-})
-.then(function (response){
-        return response.json()
-    })
-    .then(function (data){
-        console.log("11111" + data);
-        members = data.results[0].members;
-               
-        if(document.title == "Congress 113: Senate" || document.title == "Congress 113: House") {
-            
-             renderStateList(members);
-            renderColumnsHtml(members);        
-            console.log("ciao" + members);
-            
-        } else {
-            
-            getMembersPartyList(members);
-            getSortedPercentageOfVotes(members);
-            getSortedPercentageOfAttendance(members);
-            renderSenateAtGlanceTableHtml(statistics);
-            
-            if(document.title == "Party Loyalty") {
-                
-               renderLeastLoyalTableHtml(statistics);
-                renderMostLoyalTableHtml(statistics); 
-                
-            } else {
-                
-                renderLeastEngagedTableHtml(statistics);
-                renderMostEngagedTableHtml(statistics);
-                
-            }           
-            
-        }
-    })
-})()
+//var members = [];
+//
+//onload = (() => {
+//    
+//    fetch('https://api.propublica.org/congress/v1/113/house/members.json', {
+//    method: 'GET',
+//    headers: {
+//        'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
+//    }
+//    
+//})
+//.then(function (response){
+//        return response.json()
+//    })
+//    .then(function (data){
+//        console.log("11111" + data);
+//        members = data.results[0].members;
+//               
+// var members = data.results[0].members;
+//        
+//
+//        
+//        if(document.title == "Congress 113: House") {
+//            myData(members);
+//        } else {
+//            myStatistics(members);
+//        }
+//    })
+//})()
 
 
 
