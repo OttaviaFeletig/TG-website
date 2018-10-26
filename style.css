@@ -41,8 +41,8 @@ p {
     border-color: #2c2c2c transparent #2c2c2c transparent;
     animation: lds-dual-ring 1.5s linear infinite;
     margin-left: 45%;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
 @keyframes lds-dual-ring {

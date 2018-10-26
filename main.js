@@ -31,6 +31,10 @@ var dataObj = new Vue({
         independentsMembersPct: 0,
         totalMembersPct: 0,
 
+        index10Pct: 0,
+        votes10PercentMostLoyal: 0,
+        votes10PercentLeastLoyal: 0,
+
         mostLoyal: [],
         leastLoyal: [],
 
@@ -65,14 +69,11 @@ var dataObj = new Vue({
     },
     created() {
         
-        //you can use includes and use Senate as a keywork and it will include all the pages that have this keyword in the title
         if (document.title.includes("Senate")) {
             this.loadFetchSenate(this.urlSenate);
         } else {
             this.loadFetchSenate(this.urlHouse);
         }
-
-
     },
     methods: {
         getStateList: function () {
@@ -95,12 +96,10 @@ var dataObj = new Vue({
 
             this.democratsMembersNumber = this.democratsMembersList.length;
 
-
             this.republicansMembersList =
                 this.politician.filter(onePolitician => onePolitician.party.includes("R"));
 
             this.republicansMembersNumber = this.republicansMembersList.length;
-
 
             this.independentsMembersList = this.politician.filter(onePolitician => onePolitician.party.includes("I"));
 
@@ -120,51 +119,40 @@ var dataObj = new Vue({
             this.totalMembersPct = Math.round((this.democratsMembersPct + this.republicansMembersPct + this.independentsMembersPct) / 3 * 100) / 100;
 
         },
-        get10Pct: function () {
-            
-            //in order not to repeat too much and not to have too many variables it is better to save all my var in the data part of Veu and use them from there
+        get10PctIndex: function () {
 
-            if (document.title.includes("Loyalty")) {
+            this.index10Pct = Math.round(10 * this.politician.length / 100) - 1;
 
-                var whoMostOftenVoteWithTheParty = this.politician.map(el => el.votes_with_party_pct).sort((a, b) => b - a);
+        },
+        getLoyaltyList: function () {
 
-                var whoLeastOftenVoteWithTheParty = whoMostOftenVoteWithTheParty.slice().reverse();
+            this.votes10PercentMostLoyal = this.politician.map(el => el.votes_with_party_pct).sort((a, b) => b - a)[this.index10Pct];
 
-                var index10Percent = Math.round(10 * this.politician.length / 100) - 1;
+            this.votes10PercentLeastLoyal = this.politician.map(el => el.votes_with_party_pct).sort((a, b) => a - b)[this.index10Pct];
 
-                var votes10PercentMostLoyal = whoMostOftenVoteWithTheParty[index10Percent];
+            this.mostLoyal = this.politician
+                .filter(x => x.votes_with_party_pct >= this.votes10PercentMostLoyal)
+                .sort((a, b) => b.votes_with_party_pct - a.votes_with_party_pct);
 
-                var votes10PercentLeastLoyal = whoLeastOftenVoteWithTheParty[index10Percent];
+            this.leastLoyal = this.politician
+                .filter(x => x.votes_with_party_pct <= this.votes10PercentLeastLoyal)
+                .sort((a, b) => a.votes_with_party_pct - b.votes_with_party_pct);
 
-                this.mostLoyal = this.politician
-                    .filter(x => x.votes_with_party_pct >= votes10PercentMostLoyal)
-                    .sort((a, b) => b.votes_with_party_pct - a.votes_with_party_pct);
+        },
+        getAttendanceList: function () {
 
-                this.leastLoyal = this.politician
-                    .filter(x => x.votes_with_party_pct <= votes10PercentLeastLoyal)
-                    .sort((a, b) => a.votes_with_party_pct - b.votes_with_party_pct);
-            } else {
+            this.votes10PercentMostEngaged = this.politician.map(el => el.missed_votes_pct).sort((a, b) => a - b)[this.index10Pct];
 
-                var whoMostOftenAttend = this.politician.map(el => el.missed_votes_pct).sort((a, b) => a - b);
+            this.votes10PercentLeastEngaged = this.politician.map(el => el.missed_votes_pct).sort((a, b) => b - a)[this.index10Pct];
 
-                var whoLeastOftenAttend = whoMostOftenAttend.slice().reverse();
+            this.mostEngaged = this.politician
+                .filter(x => x.missed_votes_pct <= this.votes10PercentMostEngaged)
+                .sort((a, b) => a.missed_votes_pct - b.missed_votes_pct);
 
-                var index10Percent = Math.round(10 * this.politician.length / 100) - 1;
+            this.leastEngaged = this.politician
+                .filter(x => x.missed_votes_pct >= this.votes10PercentLeastEngaged)
+                .sort((a, b) => b.missed_votes_pct - a.missed_votes_pct);
 
-                var votes10PercentMostEngaged = whoMostOftenAttend[index10Percent];
-
-                var votes10PercentLeastEngaged = whoLeastOftenAttend[index10Percent];
-
-                this.mostEngaged = this.politician
-                    .filter(x => x.missed_votes_pct <= votes10PercentMostEngaged)
-                    .sort((a, b) => a.missed_votes_pct - b.missed_votes_pct);
-
-                this.leastEngaged = this.politician
-                    .filter(x => x.missed_votes_pct >= votes10PercentLeastEngaged)
-                    .sort((a, b) => b.missed_votes_pct - a.missed_votes_pct);
-                console.log(whoMostOftenAttend)
-
-            }
         },
         loadFetchSenate: function (url) {
             fetch(url, {
@@ -172,7 +160,6 @@ var dataObj = new Vue({
                     headers: {
                         'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
                     }
-
                 })
                 .then(function (response) {
                     return response.json()
@@ -186,9 +173,13 @@ var dataObj = new Vue({
                     } else {
                         dataObj.getMembersNumber();
                         dataObj.getMembersPct();
-                        dataObj.get10Pct();
+                        dataObj.get10PctIndex();
+                        if (document.title.includes("Loyalty")) {
+                            dataObj.getLoyaltyList();
+                        } else {
+                            dataObj.getAttendanceList();
+                        }
                     }
-
                 })
         }
     }
