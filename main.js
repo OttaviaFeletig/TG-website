@@ -10,6 +10,8 @@ var dataObj = new Vue({
 
     el: '#table',
     data: {
+        urlSenate: "https://api.propublica.org/congress/v1/113/senate/members.json",
+        urlHouse: "https://api.propublica.org/congress/v1/113/house/members.json",
         politician: [],
         checkedParty: [],
         state: [],
@@ -64,10 +66,10 @@ var dataObj = new Vue({
     created() {
         
         //you can use includes and use Senate as a keywork and it will include all the pages that have this keyword in the title
-        if (document.title == "Congress 113: Senate" || document.title == "Senate Party Loyalty" || document.title == "Senate Party Attendance") {
-            this.loadFetchSenate();
+        if (document.title.includes("Senate")) {
+            this.loadFetchSenate(this.urlSenate);
         } else {
-            this.loadFetchHouse();
+            this.loadFetchSenate(this.urlHouse);
         }
 
 
@@ -122,7 +124,7 @@ var dataObj = new Vue({
             
             //in order not to repeat too much and not to have too many variables it is better to save all my var in the data part of Veu and use them from there
 
-            if (document.title == "Senate Party Loyalty" || document.title == "House Party Loyalty") {
+            if (document.title.includes("Loyalty")) {
 
                 var whoMostOftenVoteWithTheParty = this.politician.map(el => el.votes_with_party_pct).sort((a, b) => b - a);
 
@@ -164,8 +166,8 @@ var dataObj = new Vue({
 
             }
         },
-        loadFetchSenate: function () {
-            fetch('https://api.propublica.org/congress/v1/113/senate/members.json', {
+        loadFetchSenate: function (url) {
+            fetch(url, {
                     method: 'GET',
                     headers: {
                         'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
@@ -179,32 +181,7 @@ var dataObj = new Vue({
                     dataObj.isLoading = false;
                     console.log(dataObj.isLoading)
                     dataObj.politician = data.results[0].members;
-                    if (document.title == "Congress 113: Senate") {
-                        dataObj.getStateList();
-                    } else {
-                        dataObj.getMembersNumber();
-                        dataObj.getMembersPct();
-                        dataObj.get10Pct();
-                    }
-
-                })
-        },
-        loadFetchHouse: function () {
-            fetch('https://api.propublica.org/congress/v1/113/house/members.json', {
-                    method: 'GET',
-                    headers: {
-                        'X-API-Key': 'LFCEVBEkx4netIVuHk7KU0nh79yiglVnKgXTutlh'
-                    }
-
-                })
-                .then(function (response) {
-                    return response.json()
-                })
-                .then(function (data) {
-                    dataObj.isLoading = false;
-                    console.log(dataObj.isLoading)
-                    dataObj.politician = data.results[0].members;
-                    if (document.title == "Congress 113: House") {
+                    if (document.title.includes("Congress 113")) {
                         dataObj.getStateList();
                     } else {
                         dataObj.getMembersNumber();
